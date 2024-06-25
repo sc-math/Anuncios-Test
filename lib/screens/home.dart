@@ -16,17 +16,22 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
   }
-  final int _currentPage = 0;
-  final Future<All> empresaLista = getAllCompany();
+  Future<All> empresaLista = getAllCompany();
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> pages = [];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Anúncios"),
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+        actions: [
+          IconButton(onPressed: (){
+            empresaLista = getAllCompany();
+            setState(() {
+            });
+          }, icon: const Icon(Icons.update))
+        ],
       ),
       body: FutureBuilder<All>(
           future: empresaLista,
@@ -45,26 +50,29 @@ class _HomeState extends State<Home> {
                 );
               }
 
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    const SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 16),
-                        child: Text(
-                          'Anúncio',
-                          style: TextStyle(
-                            fontFamily: "",
-                            fontSize: 32,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                    child: Container(
+                      color: Colors.deepPurpleAccent,
+                      width: MediaQuery.of(context).size.width,
+                      height: 40,
+                      child: const Center(child: Text("<Filtro de Categorias>")),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                      child: CustomScrollView(
+                        shrinkWrap: true,
+                        slivers: <Widget>[
+                          MediaQuery.of(context).orientation == Orientation.landscape ? LandscapeHighlightList(items: empresas) : PortraitHighlightList(items: empresas),
+                        ],
                       ),
                     ),
-                    MediaQuery.of(context).orientation == Orientation.landscape ? LandscapeHighlightList(items: empresas) : PortraitHighlightList(items: empresas),
-                  ],
-                ),
+                  ),
+                ],
               );
             }
             else if (snapshot.hasError) {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:anuncios_test/model/empresa.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 Future<All> getAllCompany() async{
@@ -19,7 +20,9 @@ Future<All> getAllCompany() async{
     }
 
     for(var empresa in result){
-      print(empresa);
+      if (kDebugMode) {
+        print(empresa);
+      }
     }
 
     return All(empresas: result);
