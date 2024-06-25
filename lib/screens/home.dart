@@ -1,6 +1,6 @@
-import 'package:anuncios_test/components/highlight_item.dart';
+import 'package:anuncios_test/components/card_item.dart';
 import 'package:anuncios_test/service/dados.dart';
-import 'package:anuncios_test/model/empresa.dart';
+import 'package:anuncios_test/model/company.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
   }
-  Future<All> empresaLista = getAllCompany();
+  Future<All> companyList = getAllCompany();
 
   @override
   Widget build(BuildContext context) {
@@ -27,26 +27,26 @@ class _HomeState extends State<Home> {
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         actions: [
           IconButton(onPressed: (){
-            empresaLista = getAllCompany();
+            companyList = getAllCompany();
             setState(() {
             });
           }, icon: const Icon(Icons.update))
         ],
       ),
       body: FutureBuilder<All>(
-          future: empresaLista,
+          future: companyList,
           builder: (context, snapshot) {
             if (snapshot.hasData){
 
-              List<Empresa> empresas = [];
+              List<Company> companies = [];
 
-              for(int i = 0; i < snapshot.data!.empresas.length; i++){
-                empresas.add(Empresa(
-                    imagem: snapshot.data!.empresas.elementAt(i).imagem,
-                    categoria: snapshot.data!.empresas.elementAt(i).categoria,
-                    nome: snapshot.data!.empresas.elementAt(i).nome,
-                    descricao: snapshot.data!.empresas.elementAt(i).descricao,
-                    numero: snapshot.data!.empresas.elementAt(i).numero)
+              for(int i = 0; i < snapshot.data!.companies.length; i++){
+                companies.add(Company(
+                    image: snapshot.data!.companies.elementAt(i).image,
+                    category: snapshot.data!.companies.elementAt(i).category,
+                    name: snapshot.data!.companies.elementAt(i).name,
+                    description: snapshot.data!.companies.elementAt(i).description,
+                    number: snapshot.data!.companies.elementAt(i).number)
                 );
               }
 
@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
                       child: CustomScrollView(
                         shrinkWrap: true,
                         slivers: <Widget>[
-                          MediaQuery.of(context).orientation == Orientation.landscape ? LandscapeHighlightList(items: empresas) : PortraitHighlightList(items: empresas),
+                          MediaQuery.of(context).orientation == Orientation.landscape ? LandscapeHighlightList(items: companies) : PortraitHighlightList(items: companies),
                         ],
                       ),
                     ),
@@ -93,7 +93,7 @@ class _HomeState extends State<Home> {
 
 class PortraitHighlightList extends StatelessWidget {
 
-  final List<Empresa> items;
+  final List<Company> items;
 
   const PortraitHighlightList({super.key, required this.items});
 
@@ -102,12 +102,12 @@ class PortraitHighlightList extends StatelessWidget {
     return SliverList(
         delegate: SliverChildBuilderDelegate(
               (context, index) {
-            return HighlightItem(
-              itemURI: items[index].imagem,
-              itemCategory: items[index].categoria,
-              itemTitle: items[index].nome,
-              itemDescription: items[index].descricao,
-              itemNumber: items[index].numero,
+            return CardItem(
+              itemURI: items[index].image,
+              itemCategory: items[index].category,
+              itemTitle: items[index].name,
+              itemDescription: items[index].description,
+              itemNumber: items[index].number,
             );
           },
           childCount: items.length,
@@ -118,7 +118,7 @@ class PortraitHighlightList extends StatelessWidget {
 
 class LandscapeHighlightList extends StatelessWidget {
 
-  final List<Empresa> items;
+  final List<Company> items;
 
   const LandscapeHighlightList({super.key, required this.items});
 
@@ -127,12 +127,12 @@ class LandscapeHighlightList extends StatelessWidget {
     return SliverGrid(
       delegate: SliverChildBuilderDelegate(
             (context, index) {
-          return HighlightItem(
-              itemURI: items[index].imagem,
-              itemCategory: items[index].categoria,
-              itemTitle: items[index].nome,
-              itemDescription: items[index].descricao,
-              itemNumber: items[index].numero
+          return CardItem(
+              itemURI: items[index].image,
+              itemCategory: items[index].category,
+              itemTitle: items[index].name,
+              itemDescription: items[index].description,
+              itemNumber: items[index].number
           );
         },
         childCount: items.length,

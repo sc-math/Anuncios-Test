@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:anuncios_test/model/empresa.dart';
+import 'package:anuncios_test/model/company.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,22 +10,22 @@ Future<All> getAllCompany() async{
     Uri.parse(url),
   );
 
-  List<Empresa> result = [];
+  List<Company> result = [];
 
   if (response.statusCode == 200){
 
     final List<dynamic> jsonList = json.decode(utf8.decode( response.bodyBytes))['empresas'];
     for(var jsonMap in jsonList) {
-      result.add(Empresa.fromJson(jsonMap));
+      result.add(Company.fromJson(jsonMap));
     }
 
-    for(var empresa in result){
+    for(var company in result){
       if (kDebugMode) {
-        print(empresa);
+        print(company);
       }
     }
 
-    return All(empresas: result);
+    return All(companies: result);
   }
   else{
     throw Exception('Failed to fetch repos!');

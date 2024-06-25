@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HighlightItem extends StatefulWidget {
-  const HighlightItem({super.key, required this.itemURI, required this.itemCategory, required this.itemTitle, required this.itemDescription, required this.itemNumber});
+class CardItem extends StatefulWidget {
+  const CardItem({super.key, required this.itemURI, required this.itemCategory, required this.itemTitle, required this.itemDescription, required this.itemNumber});
   final String itemURI;
   final String itemCategory;
   final String itemTitle;
@@ -10,10 +10,10 @@ class HighlightItem extends StatefulWidget {
   final String itemNumber;
 
   @override
-  State<HighlightItem> createState() => _HighlightItemState();
+  State<CardItem> createState() => _CardItemState();
 }
 
-class _HighlightItemState extends State<HighlightItem> {
+class _CardItemState extends State<CardItem> {
   final double imageHeight = 100;
   final double imageWidth = 100;
 
